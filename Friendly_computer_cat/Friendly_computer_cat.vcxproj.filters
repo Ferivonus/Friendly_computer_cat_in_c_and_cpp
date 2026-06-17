@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\app_logic">
+      <UniqueIdentifier>{0fe5e909-910c-4a36-b27d-9e36d6583a4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\helpfulls">
+      <UniqueIdentifier>{a1d64ad0-a5e9-4539-9c8f-05f184db972d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\services">
+      <UniqueIdentifier>{123f6c1f-ccc2-48b1-9b80-2c6cbe3cccc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\wrappers">
+      <UniqueIdentifier>{1f7b13c4-eaa5-476b-ab7d-288112989e65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\app_logic">
+      <UniqueIdentifier>{c54dea16-b8ac-494b-8196-df389b77d12c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\helpfulls">
+      <UniqueIdentifier>{49447e33-3d44-46ee-9ec4-5b5aed486d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\wrappers">
+      <UniqueIdentifier>{2580786c-2dae-4f9e-b8bc-a556ba859bfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\main">
+      <UniqueIdentifier>{b3a08ebb-fecc-4442-8aad-a9547b32543f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services">
+      <UniqueIdentifier>{f8e91779-dda0-4a1c-a48b-fb1150c51f7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\config">
+      <UniqueIdentifier>{92c99acc-a17f-4b4b-a356-a081cdf96e84}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="app_assets.c">
+      <Filter>Source Files\app_logic</Filter>
+    </ClCompile>
+    <ClCompile Include="app_draw.c">
+      <Filter>Source Files\app_logic</Filter>
+    </ClCompile>
+    <ClCompile Include="app_settings.c">
+      <Filter>Source Files\app_logic</Filter>
+    </ClCompile>
+    <ClCompile Include="app_state.c">
+      <Filter>Source Files\app_logic</Filter>
+    </ClCompile>
+    <ClCompile Include="app_sys.c">
+      <Filter>Source Files\app_logic</Filter>
+    </ClCompile>
+    <ClCompile Include="UsableFunctions.cpp">
+      <Filter>Source Files\helpfulls</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkSchedule_Wrapper.cpp">
+      <Filter>Source Files\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Friendly_computer_cat.c">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkSchedule.cpp">
+      <Filter>Source Files\services</Filter>
+    </ClCompile>
+    <ClCompile Include="LinkedList.c">
+      <Filter>Source Files\helpfulls</Filter>
+    </ClCompile>
+    <ClCompile Include="app_db_logic.c">
+      <Filter>Source Files\app_logic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="app.h">
+      <Filter>Header Files\app_logic</Filter>
+    </ClInclude>
+    <ClInclude Include="UsableFunctions.h">
+      <Filter>Header Files\helpfulls</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkSchedule.h">
+      <Filter>Header Files\services</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkSchedule_Wrapper.h">
+      <Filter>Header Files\wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="app_config.h">
+      <Filter>Header Files\config</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Header Files\helpfulls</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
