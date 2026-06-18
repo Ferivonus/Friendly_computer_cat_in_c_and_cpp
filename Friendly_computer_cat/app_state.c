@@ -138,7 +138,7 @@ void UpdateSetupState(AppContext* ctx) {
 
         SetMouseCursor(MOUSE_CURSOR_DEFAULT);
         MakeWindowClickThrough(ctx->hwnd);
-        AddTrayIcon(ctx->hwnd, "Friendly Break Reminder: Started");
+        AddTrayIcon(ctx->hwnd, "Friendly Computer Cat: Started");
     }
 }
 
@@ -306,7 +306,7 @@ void UpdateBreakOverState(AppContext* ctx, float dt) {
             ctx->currentState = STATE_WORKING;
         }
         MakeWindowClickThrough(ctx->hwnd);
-        AddTrayIcon(ctx->hwnd, "Friendly Break Reminder: Focusing...");
+        AddTrayIcon(ctx->hwnd, "Friendly Computer Cat: Focusing...");
     }
 }
 

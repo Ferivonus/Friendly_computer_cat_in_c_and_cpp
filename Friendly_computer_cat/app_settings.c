@@ -1,7 +1,5 @@
 #include "app.h"
 
-
-
 void SaveSettings(AppContext* ctx) {
     if (ctx == NULL) return;
 
@@ -37,6 +35,7 @@ void SaveSettings(AppContext* ctx) {
     WritePrivateProfileStringA("Assets", "InfoGif", ctx->assetInfoGif, INI_FILE_PATH);
     WritePrivateProfileStringA("Assets", "GoodbyeGif", ctx->assetGoodbyeGif, INI_FILE_PATH);
     WritePrivateProfileStringA("Assets", "AlarmSound", ctx->assetAlarmSound, INI_FILE_PATH);
+    WritePrivateProfileStringA("Assets", "AppIcon", ctx->assetAppIcon, INI_FILE_PATH);
 
     WritePrivateProfileStringA("Preferences", "ReminderMessage", ctx->reminderMessage, INI_FILE_PATH);
 
@@ -46,7 +45,6 @@ void SaveSettings(AppContext* ctx) {
         WritePrivateProfileStringA("Quotes", keyBuf, ctx->motivationalQuotes[i], INI_FILE_PATH);
     }
 }
-
 
 void LoadSettings(AppContext* ctx) {
     if (ctx == NULL) return;
@@ -80,6 +78,8 @@ void LoadSettings(AppContext* ctx) {
         strcpy_s(ctx->assetInfoGif, sizeof(ctx->assetInfoGif), DEFAULT_INFO_GIF_PATH);
         strcpy_s(ctx->assetGoodbyeGif, sizeof(ctx->assetGoodbyeGif), DEFAULT_GOODBYE_GIF_PATH);
         strcpy_s(ctx->assetAlarmSound, sizeof(ctx->assetAlarmSound), DEFAULT_ALARM_SOUND);
+        strcpy_s(ctx->assetAppIcon, sizeof(ctx->assetAppIcon), DEFAULT_APP_ICON);
+
         strcpy_s(ctx->reminderMessage, sizeof(ctx->reminderMessage), defaultReminder);
 
         for (int i = 0; i < QUOTE_COUNT; i++) {
@@ -105,6 +105,8 @@ void LoadSettings(AppContext* ctx) {
     GetPrivateProfileStringA("Assets", "InfoGif", DEFAULT_INFO_GIF_PATH, ctx->assetInfoGif, MAX_PATH, INI_FILE_PATH);
     GetPrivateProfileStringA("Assets", "GoodbyeGif", DEFAULT_GOODBYE_GIF_PATH, ctx->assetGoodbyeGif, MAX_PATH, INI_FILE_PATH);
     GetPrivateProfileStringA("Assets", "AlarmSound", DEFAULT_ALARM_SOUND, ctx->assetAlarmSound, MAX_PATH, INI_FILE_PATH);
+    GetPrivateProfileStringA("Assets", "AppIcon", DEFAULT_APP_ICON, ctx->assetAppIcon, MAX_PATH, INI_FILE_PATH);
+
     GetPrivateProfileStringA("Preferences", "ReminderMessage", defaultReminder, ctx->reminderMessage, 256, INI_FILE_PATH);
 
     for (int i = 0; i < QUOTE_COUNT; i++) {

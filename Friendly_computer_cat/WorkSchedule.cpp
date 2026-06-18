@@ -329,7 +329,7 @@ C_WorkScheduleItem WorkSchedule::get_work_info(int wanted_info_id) {
     const char* select_sql = "SELECT * FROM WorkSchedule WHERE id = ?;";
 
     C_WorkScheduleItem item{};
-    item.id = -1; 
+    item.id = -1;
 
     try {
         int rc = sqlite3_prepare_v2(db, select_sql, -1, &stmt, nullptr);

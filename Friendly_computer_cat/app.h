@@ -98,6 +98,7 @@ typedef struct {
     char assetAlarmSound[MAX_PATH];
     char assetInfoGif[MAX_PATH];
     char assetGoodbyeGif[MAX_PATH];
+    char assetAppIcon[MAX_PATH];
 
     char reminderMessage[256];
     char motivationalQuotes[QUOTE_COUNT][256];
