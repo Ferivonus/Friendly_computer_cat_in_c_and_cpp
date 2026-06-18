@@ -137,13 +137,11 @@ int WorkSchedule::add_schedule(const WorkSchedule::WorkScheduleItem& schedule) {
             throw std::runtime_error("SQLite Execution Error: " + error_msg);
         }
 
-        // YENÝ: Otomatik oluþturulan ID'yi alýyoruz
         int generated_id = static_cast<int>(sqlite3_last_insert_rowid(db));
 
         sqlite3_finalize(stmt);
         spdlog::info("New work schedule item inserted successfully with ID: {}", generated_id);
 
-        // ID'yi geriye döndür
         return generated_id;
     }
     catch (const std::exception& e) {
