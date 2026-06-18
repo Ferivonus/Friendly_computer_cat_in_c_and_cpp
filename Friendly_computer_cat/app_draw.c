@@ -155,7 +155,7 @@ void DrawWarningState(AppContext* ctx) {
 void DrawStatusState(AppContext* ctx) {
     if (ctx == NULL || ctx->screenWidth <= 0 || ctx->screenHeight <= 0) return;
 
-    float boxW = 460.0f, boxH = 430.0f;
+    float boxW = 540.0f, boxH = 500.0f;
     int spacing = 20;
 
     int gifW = (ctx->imAnim3.data != NULL) ? ctx->imAnim3.width : 0;
@@ -171,47 +171,80 @@ void DrawStatusState(AppContext* ctx) {
     float boxY = (float)((gifH > 0) ? (gifY + gifH + spacing) : startY);
     UICard card = DrawGlassCard(boxY, boxW, boxH, Fade(ctx->bgDark, 0.95f), ctx->btnNormal, ctx->screenWidth);
 
-    DrawCardText(card, "WORK STATUS", 26, ctx->accentGold, 20.0f);
-    DrawCardText(card, TextFormat("Target Duration: %02d:%02d", ctx->workMin, ctx->workSec), 20, ctx->textSoft, 65.0f);
-    DrawCardText(card, TextFormat("%02d : %02d", (int)ctx->workTimer / 60, (int)ctx->workTimer % 60), 48, ctx->accentGreen, 100.0f);
+    DrawCardText(card, "CURRENT SESSION STATUS", 24, ctx->accentGold, 25.0f);
+    DrawLine(card.x + 40, card.y + 70, card.x + card.w - 40, card.y + 70, ctx->btnNormal);
 
     float totalWork = (float)(ctx->workMin * 60 + ctx->workSec);
     float progress = (totalWork > 0.0f) ? (1.0f - (ctx->workTimer / totalWork)) : 0.0f;
     if (progress < 0.0f) progress = 0.0f;
     if (progress > 1.0f) progress = 1.0f;
 
-    DrawRectangleRounded((Rectangle) { card.x + 30.0f, card.y + 155.0f, card.w - 60.0f, 10.0f }, 0.5f, UI_SEGS, ctx->bgPanel);
-    DrawRectangleRounded((Rectangle) { card.x + 30.0f, card.y + 155.0f, (card.w - 60.0f)* progress, 10.0f }, 0.5f, UI_SEGS, ctx->accentGreen);
+    float pBarW = card.w - 100.0f;
+    float pBarX = card.x + 50.0f;
+    float pBarY = card.y + 110.0f;
+
+    DrawRectangleRounded((Rectangle) { pBarX, pBarY, pBarW, 12.0f }, 0.5f, UI_SEGS, ctx->bgPanel);
+    DrawRectangleRounded((Rectangle) { pBarX, pBarY, pBarW* progress, 12.0f }, 0.5f, UI_SEGS, ctx->accentGreen);
+
+    int m = (int)ctx->workTimer / 60;
+    int s = (int)ctx->workTimer % 60;
+    const char* timeText = TextFormat("%02d:%02d", m, s);
+    DrawText(timeText, (int)(card.x + (card.w - MeasureText(timeText, 54)) / 2.0f), (int)(pBarY + 35.0f), 54, WHITE);
 
     Vector2 mouse = GetMousePosition();
     bool showCursor = ((int)(GetTime() * 2.5f) % 2) == 0;
+    float fieldX = card.x + 50.0f;
+    float fieldW = card.w - 100.0f;
 
-    DrawText("Task Title:", (int)card.x + 30, (int)card.y + 180, 16, ctx->textSoft);
-    Rectangle titleRect = { card.x + 30, card.y + 200, card.w - 60, 35.0f };
+    DrawText("Task Title", (int)fieldX, (int)card.y + 220, 16, Fade(ctx->textSoft, 0.7f));
+    Rectangle titleRect = { fieldX, card.y + 245, fieldW, 40.0f };
     if (CheckCollisionPointRec(mouse, titleRect) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) ctx->activeField = 0;
-    DrawRectangleRounded(titleRect, UI_RADIUS, UI_SEGS, ctx->activeField == 0 ? ctx->activeBox : ctx->bgDark);
-    DrawText(ctx->promptTitle, (int)(titleRect.x + 10), (int)(titleRect.y + 8), 18, ctx->activeField == 0 ? ctx->accentGold : ctx->textSoft);
-    if (ctx->activeField == 0 && showCursor) DrawText("|", (int)(titleRect.x + 10) + MeasureText(ctx->promptTitle, 18) + 2, (int)(titleRect.y + 8), 18, ctx->accentGold);
+    DrawRectangleRounded(titleRect, UI_RADIUS, UI_SEGS, ctx->activeField == 0 ? ctx->activeBox : ctx->bgPanel);
+    DrawText(ctx->promptTitle, (int)(titleRect.x + 15), (int)(titleRect.y + 10), 20, ctx->activeField == 0 ? ctx->accentGold : ctx->textSoft);
+    if (ctx->activeField == 0 && showCursor) DrawText("|", (int)(titleRect.x + 15) + MeasureText(ctx->promptTitle, 20) + 2, (int)(titleRect.y + 10), 20, ctx->accentGold);
 
-    DrawText("Description:", (int)card.x + 30, (int)card.y + 245, 16, ctx->textSoft);
-    Rectangle infoRect = { card.x + 30, card.y + 265, card.w - 60, 35.0f };
+    DrawText("Task Description", (int)fieldX, (int)card.y + 300, 16, Fade(ctx->textSoft, 0.7f));
+    Rectangle infoRect = { fieldX, card.y + 325, fieldW, 40.0f };
     if (CheckCollisionPointRec(mouse, infoRect) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) ctx->activeField = 1;
-    DrawRectangleRounded(infoRect, UI_RADIUS, UI_SEGS, ctx->activeField == 1 ? ctx->activeBox : ctx->bgDark);
-    DrawText(ctx->promptInfo, (int)(infoRect.x + 10), (int)(infoRect.y + 8), 18, ctx->activeField == 1 ? ctx->accentGold : ctx->textSoft);
-    if (ctx->activeField == 1 && showCursor) DrawText("|", (int)(infoRect.x + 10) + MeasureText(ctx->promptInfo, 18) + 2, (int)(infoRect.y + 8), 18, ctx->accentGold);
+    DrawRectangleRounded(infoRect, UI_RADIUS, UI_SEGS, ctx->activeField == 1 ? ctx->activeBox : ctx->bgPanel);
+    DrawText(ctx->promptInfo, (int)(infoRect.x + 15), (int)(infoRect.y + 10), 20, ctx->activeField == 1 ? ctx->accentGold : ctx->textSoft);
+    if (ctx->activeField == 1 && showCursor) DrawText("|", (int)(infoRect.x + 15) + MeasureText(ctx->promptInfo, 20) + 2, (int)(infoRect.y + 10), 20, ctx->accentGold);
 
-    float btnW = 160.0f, btnGap = 20.0f, btnH = 40.0f;
-    float startX = card.x + (card.w - (btnW * 2.0f + btnGap)) / 2.0f;
+    float btnW = 120.0f;
+    float btnGap = 15.0f;
+    float rowWidth = (btnW * 3.0f) + (btnGap * 2.0f);
+    float startX = card.x + (card.w - rowWidth) / 2.0f;
+    float btnY = card.y + card.h - 65.0f;
 
-    Rectangle btnResume = { startX, card.y + 320.0f, btnW, btnH };
-    Rectangle btnAbort = { startX + btnW + btnGap, card.y + 320.0f, btnW, btnH };
-    Rectangle btnAddMin = { startX, card.y + 320.0f + btnH + 10.0f, btnW, btnH };
-    Rectangle btnUpdate = { startX + btnW + btnGap, card.y + 320.0f + btnH + 10.0f, btnW, btnH };
+    Rectangle btnResume = { startX, btnY, btnW, 45.0f };
+    Rectangle btnAddMin = { startX + btnW + btnGap, btnY, btnW, 45.0f };
+    Rectangle btnAbort = { startX + (btnW + btnGap) * 2.0f, btnY, btnW, 45.0f };
+
+    Rectangle btnUpdate = { fieldX + fieldW - 120.0f, card.y + 185.0f, 120.0f, 30.0f };
+
+    if (DrawButton(btnUpdate, "SAVE EDITS", ctx->accentGreen, ctx->btnHover, ctx->bgDark)) {
+        HandleUpdateSchedule(ctx);
+        ctx->activeField = -1;
+    }
 
     if (DrawButton(btnResume, "RESUME", ctx->btnNormal, ctx->btnHover, ctx->textSoft)) {
         if (ctx->workTimer <= (float)ctx->warningSec) ctx->currentState = STATE_WARNING;
         else ctx->currentState = STATE_WORKING;
         MakeWindowClickThrough(ctx->hwnd);
+    }
+
+    if (ctx->add_button_Clicked.howManyTimes) {
+        DrawButtonAdvanced(btnAddMin, "Max Limit", ctx->btnNormal, ctx->btnHover, ctx->textSoft, false);
+    }
+    else {
+        const char* addText = ctx->add_button_Clicked.clicked ? "+5 Min (Last)" : "+5 Minutes";
+        if (DrawButtonAdvanced(btnAddMin, addText, ctx->btnNormal, ctx->btnHover, ctx->textSoft, true)) {
+            ctx->workTimer += 5 * 60;
+            ctx->workMin += 5;
+            if (ctx->workTimer <= (float)ctx->warningSec) ctx->currentState = STATE_WARNING;
+            if (ctx->add_button_Clicked.clicked) ctx->add_button_Clicked.howManyTimes = true;
+            else ctx->add_button_Clicked.clicked = true;
+        }
     }
 
     if (DrawButton(btnAbort, "CANCEL", (Color) { 180, 60, 60, 255 }, (Color) { 220, 80, 80, 255 }, WHITE)) {
@@ -226,25 +259,6 @@ void DrawStatusState(AppContext* ctx) {
         RestoreWindowClickable(ctx->hwnd);
         SetForegroundWindow(ctx->hwnd);
         ctx->currentState = STATE_SETUP;
-    }
-
-    if (ctx->add_button_Clicked.howManyTimes) {
-        DrawButtonAdvanced(btnAddMin, "Max Reached", ctx->btnNormal, ctx->btnHover, ctx->textSoft, false);
-    }
-    else {
-        const char* addText = ctx->add_button_Clicked.clicked ? "Add 5 Min (+1)" : "Add 5 Min";
-        if (DrawButtonAdvanced(btnAddMin, addText, ctx->btnNormal, ctx->btnHover, ctx->textSoft, true)) {
-            ctx->workTimer += 5 * 60;
-            ctx->workMin += 5;
-            if (ctx->workTimer <= (float)ctx->warningSec) ctx->currentState = STATE_WARNING;
-            if (ctx->add_button_Clicked.clicked) ctx->add_button_Clicked.howManyTimes = true;
-            else ctx->add_button_Clicked.clicked = true;
-        }
-    }
-
-    if (DrawButton(btnUpdate, "UPDATE DB", ctx->btnNormal, ctx->btnHover, ctx->accentGold)) {
-        HandleUpdateSchedule(ctx);
-        ctx->activeField = -1;
     }
 
     HandleTransitions(ctx);
@@ -587,22 +601,47 @@ void DrawSetupState(AppContext* ctx) {
     DrawLine(panelX + ctx->panelW - 14, panelY + ctx->panelH - 8, panelX + ctx->panelW - 8, panelY + ctx->panelH - 14, ctx->btnHover);
 
     if (ctx->showHelpScreen) {
-        const char* hTitle = "HOW TO USE";
-        DrawText(hTitle, panelX + (ctx->panelW - MeasureText(hTitle, 30)) / 2, panelY + 40, 30, ctx->accentGold);
-        DrawLine(panelX + 50, panelY + 85, panelX + ctx->panelW - 50, panelY + 85, ctx->btnNormal);
+        // Yardým içeriði kýsmý deðiþtirildi ve UX geliþtirildi.
+        const char* hTitle = "HOW IT WORKS & FEATURES";
+        DrawText(hTitle, panelX + (ctx->panelW - MeasureText(hTitle, 28)) / 2, panelY + 40, 28, ctx->accentGold);
+        DrawLine(panelX + 40, panelY + 80, panelX + ctx->panelW - 40, panelY + 80, ctx->btnNormal);
 
-        int textY = panelY + 120;
-        int helpGap = (ctx->panelH - 240) / 5;
-        if (helpGap > 55) helpGap = 55;
+        float textX = panelX + 50.0f;
+        float textY = panelY + 110.0f;
+        float spacingY = 45.0f;
 
-        DrawText("- Name: Personalized name for quotes.", panelX + 60, textY, 22, ctx->textSoft); textY += helpGap;
-        DrawText("- Reminder: Custom text to motivate you.", panelX + 60, textY, 22, ctx->textSoft); textY += helpGap;
-        DrawText("- Work/Break: Focus and rest durations.", panelX + 60, textY, 22, ctx->textSoft); textY += helpGap;
-        DrawText("- Warning: Seconds before break starts.", panelX + 60, textY, 22, ctx->textSoft); textY += helpGap;
-        DrawText("- Cycles & Volume: Rounds and sound level.", panelX + 60, textY, 22, ctx->textSoft);
+        DrawText("Welcome to Friendly Break Reminder! This app is designed to help you", (int)textX, (int)textY, 20, WHITE);
+        textY += 30.0f;
+        DrawText("maintain focus while ensuring you take healthy, structured breaks.", (int)textX, (int)textY, 20, WHITE);
+        textY += spacingY + 10.0f;
+
+        DrawText("Key Features:", (int)textX, (int)textY, 22, ctx->accentGreen);
+        textY += 35.0f;
+
+        DrawText("- Focus & Break Times:", (int)textX, (int)textY, 20, ctx->accentGold);
+        DrawText("Customize exactly how long you want to work and rest.", (int)textX + 230, (int)textY, 20, ctx->textSoft);
+        textY += spacingY;
+
+        DrawText("- Ghost Mode:", (int)textX, (int)textY, 20, ctx->accentGold);
+        DrawText("During work, the widget becomes transparent to clicks.", (int)textX + 140, (int)textY, 20, ctx->textSoft);
+        textY += spacingY;
+
+        DrawText("- System Lock:", (int)textX, (int)textY, 20, ctx->accentGold);
+        DrawText("Enforces breaks by temporarily locking keyboard and mouse.", (int)textX + 145, (int)textY, 20, ctx->textSoft);
+        textY += spacingY;
+
+        DrawText("- Task Database:", (int)textX, (int)textY, 20, ctx->accentGold);
+        DrawText("Save your sessions, titles, and notes to the SQLite history.", (int)textX + 175, (int)textY, 20, ctx->textSoft);
+        textY += spacingY + 10.0f;
+
+        DrawText("Emergency Exit:", (int)textX, (int)textY, 22, (Color) { 240, 100, 100, 255 });
+        textY += 35.0f;
+        DrawText("If you get stuck during a locked break, press:", (int)textX, (int)textY, 20, WHITE);
+        textY += 25.0f;
+        DrawText("CTRL + ALT + SHIFT + Q", (int)textX, (int)textY, 22, ctx->accentGold);
 
         Rectangle backBtn = { (float)panelX + ((float)ctx->panelW - 200.0f) / 2.0f, (float)panelY + (float)ctx->panelH - 80.0f, 200.0f, 45.0f };
-        if (DrawButton(backBtn, "BACK", ctx->btnNormal, ctx->btnHover, ctx->textSoft)) ctx->showHelpScreen = false;
+        if (DrawButton(backBtn, "BACK TO SETUP", ctx->btnNormal, ctx->btnHover, WHITE)) ctx->showHelpScreen = false;
 
         HandleTransitions(ctx);
         return;
@@ -639,6 +678,7 @@ void DrawSetupState(AppContext* ctx) {
     float c3H = remainingHeight * 0.25f;
     float cardGaps = remainingHeight * 0.05f / 2.0f;
 
+    // --- KART 1: Profil ve Hatýrlatýcý ---
     float c1Y = (float)panelY + 100.0f;
     DrawRectangleRounded((Rectangle) { cardX, c1Y, cardW, c1H }, 0.1f, UI_SEGS, cardBg);
 
@@ -662,6 +702,7 @@ void DrawSetupState(AppContext* ctx) {
     DrawText(ctx->reminderMessage, (int)(remRect.x + 10.0f), (int)(remRect.y + 10.0f), 20, ctx->activeField == 1 ? ctx->accentGold : ctx->textSoft);
     if (ctx->activeField == 1 && showCursor) DrawText("|", (int)(remRect.x + 10.0f) + MeasureText(ctx->reminderMessage, 20) + 2, (int)(remRect.y + 10.0f), 20, ctx->accentGold);
 
+    // --- KART 2: Zaman Ayarlarý ---
     float c2Y = c1Y + c1H + cardGaps;
     DrawRectangleRounded((Rectangle) { cardX, c2Y, cardW, c2H }, 0.1f, UI_SEGS, cardBg);
 
@@ -720,6 +761,7 @@ void DrawSetupState(AppContext* ctx) {
     if (DrawButtonRepeat(warnMinus, "-", ctx->bgPanel, ctx->btnHover, ctx->textSoft)) ctx->warningSec = (ctx->warningSec > 1) ? ctx->warningSec - 1 : 1;
     if (DrawButtonRepeat(warnPlus, "+", ctx->bgPanel, ctx->btnHover, ctx->textSoft)) ctx->warningSec = (ctx->warningSec < 60) ? ctx->warningSec + 1 : 60;
 
+    // --- KART 3: Döngü ve Ses ---
     float c3Y = c2Y + c2H + cardGaps;
     DrawRectangleRounded((Rectangle) { cardX, c3Y, cardW, c3H }, 0.1f, UI_SEGS, cardBg);
 

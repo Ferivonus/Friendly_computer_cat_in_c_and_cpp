@@ -153,6 +153,7 @@ int WorkSchedule::add_schedule(const WorkSchedule::WorkScheduleItem& schedule) {
         throw;
     }
 }
+
 void WorkSchedule::delete_work_done(int work_id_will_be_deleted) {
     sqlite3_stmt* stmt = nullptr;
     const char* delete_sql = "DELETE FROM WorkSchedule WHERE id = ?";
