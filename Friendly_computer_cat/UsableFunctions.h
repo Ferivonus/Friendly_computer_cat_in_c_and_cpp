@@ -1,5 +1,8 @@
 #pragma once
 
+/*
+
+
 #include <time.h>
 #include "spdlog/spdlog.h"
 #include <cmath>
@@ -18,4 +21,8 @@ struct UsableFunctions
 
     int_fast8_t random_number_generator_for_working_time(int_fast8_t, int_fast8_t, bool);
 };
+
+*/
+
+
 

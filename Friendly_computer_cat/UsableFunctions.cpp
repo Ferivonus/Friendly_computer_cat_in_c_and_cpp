@@ -1,6 +1,9 @@
+
+
+
 #include "UsableFunctions.h"
 
-
+/*
  UsableFunctions::time_Struct UsableFunctions::Get_time_Function_as_time_struct(){
 
 
@@ -67,4 +70,7 @@
 
      return random_value;
  }
+
+
+*/
 
