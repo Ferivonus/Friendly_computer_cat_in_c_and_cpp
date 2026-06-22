@@ -32,12 +32,6 @@ static void* DbWorkerThread(void* arg) {
     else if (task->operationType == 2) {
         update_work_done_wrapper(task->ctx->dbHandle, task->item);
     }
-    else if (task->operationType == 3) {
-        delete_specific_work_schedule_wrapper(task->ctx->dbHandle, task->item.id);
-        task->ctx->selectedScheduleId = -1;
-    }
-
-    RefreshScheduleList(task->ctx);
 
     if (task->item.work_title) free((void*)task->item.work_title);
     if (task->item.work_info) free((void*)task->item.work_info);
@@ -115,17 +109,8 @@ void HandleUpdateSchedule(AppContext* ctx) {
 void HandleDeleteSchedule(AppContext* ctx) {
     if (ctx == NULL || ctx->dbHandle == NULL || ctx->selectedScheduleId == -1) return;
 
-    DbTaskArgs* args = (DbTaskArgs*)malloc(sizeof(DbTaskArgs));
-    if (args == NULL) return;
+    delete_specific_work_schedule_wrapper(ctx->dbHandle, ctx->selectedScheduleId);
 
-    args->ctx = ctx;
-    args->operationType = 3;
-
-    args->item.id = ctx->selectedScheduleId;
-    args->item.work_title = NULL;
-    args->item.work_info = NULL;
-
-    pthread_t threadId;
-    pthread_create(&threadId, NULL, DbWorkerThread, args);
-    pthread_detach(threadId);
+    ctx->selectedScheduleId = -1;
+    RefreshScheduleList(ctx);
 }

@@ -67,7 +67,11 @@ static LRESULT CALLBACK CustomWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
             }
 
             g_sys.ctx->currentState = STATE_SETUP;
+
+            HideCursor();
             ShowCursor();
+            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+
             ShowWindow(hwnd, SW_SHOW);
             SetForegroundWindow(hwnd);
             CleanupSystemLocks();
@@ -83,6 +87,10 @@ static LRESULT CALLBACK CustomWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
                 ShowWindow(hwnd, SW_SHOW);
                 SetForegroundWindow(hwnd);
                 SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+                HideCursor();
+                ShowCursor();
+                SetMouseCursor(MOUSE_CURSOR_DEFAULT);
             }
         }
         else if (lParam == WM_RBUTTONUP) {
@@ -104,6 +112,10 @@ static LRESULT CALLBACK CustomWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
                             ShowWindow(hwnd, SW_SHOW);
                             SetForegroundWindow(hwnd);
                             SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+                            HideCursor();
+                            ShowCursor();
+                            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
                         }
                     }
                     else if (cmd == CMD_TRAY_CLOSE && g_sys.ctx != NULL) {

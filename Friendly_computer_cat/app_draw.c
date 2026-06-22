@@ -201,17 +201,17 @@ void DrawStatusState(AppContext* ctx) {
 
     DrawText("Task Title", (int)fieldX, (int)card.y + 245, 14, Fade(ctx->textSoft, 0.6f));
     Rectangle titleRect = { fieldX, card.y + 265, fieldW, 40.0f };
-    if (CheckCollisionPointRec(mouse, titleRect) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) ctx->activeField = 0;
-    DrawRectangleRounded(titleRect, UI_RADIUS, UI_SEGS, ctx->activeField == 0 ? ctx->activeBox : ctx->bgPanel);
-    DrawText(ctx->promptTitle, (int)(titleRect.x + 15), (int)(titleRect.y + 11), 18, ctx->activeField == 0 ? ctx->accentGold : WHITE);
-    if (ctx->activeField == 0 && showCursor) DrawText("|", (int)(titleRect.x + 15) + MeasureText(ctx->promptTitle, 18) + 2, (int)(titleRect.y + 11), 18, ctx->accentGold);
+    if (CheckCollisionPointRec(mouse, titleRect) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) ctx->promptActiveField = 0;
+    DrawRectangleRounded(titleRect, UI_RADIUS, UI_SEGS, ctx->promptActiveField == 0 ? ctx->activeBox : ctx->bgPanel);
+    DrawText(ctx->promptTitle, (int)(titleRect.x + 15), (int)(titleRect.y + 11), 18, ctx->promptActiveField == 0 ? ctx->accentGold : WHITE);
+    if (ctx->promptActiveField == 0 && showCursor) DrawText("|", (int)(titleRect.x + 15) + MeasureText(ctx->promptTitle, 18) + 2, (int)(titleRect.y + 11), 18, ctx->accentGold);
 
     DrawText("Task Description", (int)fieldX, (int)card.y + 320, 14, Fade(ctx->textSoft, 0.6f));
     Rectangle infoRect = { fieldX, card.y + 340, fieldW, 40.0f };
-    if (CheckCollisionPointRec(mouse, infoRect) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) ctx->activeField = 1;
-    DrawRectangleRounded(infoRect, UI_RADIUS, UI_SEGS, ctx->activeField == 1 ? ctx->activeBox : ctx->bgPanel);
-    DrawText(ctx->promptInfo, (int)(infoRect.x + 15), (int)(infoRect.y + 11), 18, ctx->activeField == 1 ? ctx->accentGold : WHITE);
-    if (ctx->activeField == 1 && showCursor) DrawText("|", (int)(infoRect.x + 15) + MeasureText(ctx->promptInfo, 18) + 2, (int)(infoRect.y + 11), 18, ctx->accentGold);
+    if (CheckCollisionPointRec(mouse, infoRect) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) ctx->promptActiveField = 1;
+    DrawRectangleRounded(infoRect, UI_RADIUS, UI_SEGS, ctx->promptActiveField == 1 ? ctx->activeBox : ctx->bgPanel);
+    DrawText(ctx->promptInfo, (int)(infoRect.x + 15), (int)(infoRect.y + 11), 18, ctx->promptActiveField == 1 ? ctx->accentGold : WHITE);
+    if (ctx->promptActiveField == 1 && showCursor) DrawText("|", (int)(infoRect.x + 15) + MeasureText(ctx->promptInfo, 18) + 2, (int)(infoRect.y + 11), 18, ctx->accentGold);
 
     float btnW = 195.0f;
     float btnGap = 30.0f;
@@ -232,7 +232,7 @@ void DrawStatusState(AppContext* ctx) {
 
     if (DrawButton(btnUpdate, "SAVE EDITS", ctx->btnNormal, ctx->btnHover, ctx->accentGold)) {
         HandleUpdateSchedule(ctx);
-        ctx->activeField = -1;
+        ctx->promptActiveField = -1;
     }
 
     if (ctx->add_button_Clicked.howManyTimes) {
